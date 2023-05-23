@@ -12,6 +12,7 @@ import {
 function App() {
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [nextPage, setNextPage] = useState<string | null>(null);
+  const [previousPage, setPreviousPage] = useState<string | null>(null);
 
   const initializeData = async () => {
     const { next, results } = await getResourceInitialData(
@@ -26,21 +27,39 @@ function App() {
     initializeData();
   }, []);
 
-  const onScrollBottom = async () => {
+  const fetchData = async (url: string) => {
+    const { previous, results, next } = await getResourceData(url);
+    setPlanets(results);
+    setPreviousPage(previous);
+    setNextPage(next);
+  };
+
+  const onNext = () => {
     if (nextPage === null) {
       return;
     }
 
-    const { next, results } = await getResourceData(nextPage);
+    fetchData(nextPage);
+  };
 
-    setPlanets((prevState) => [...prevState, ...results]);
-    setNextPage(next);
+  const onPrevious = () => {
+    if (previousPage === null) {
+      return;
+    }
+
+    fetchData(previousPage);
   };
 
   return (
     <>
       <Filters />
-      <ResultList results={planets} />
+      <ResultList
+        results={planets}
+        showNextPage={nextPage !== null}
+        showPreviousPage={previousPage !== null}
+        onPrevious={onPrevious}
+        onNext={onNext}
+      />
     </>
   );
 }

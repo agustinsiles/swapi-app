@@ -20,11 +20,12 @@ const getResourcesUrl = (): Promise<Resource> => {
 
 export const getResourceData = (url: string) => {
   return axios.get(url).then((res) => {
-    const { results, next } = res.data;
+    const { results, next, previous } = res.data;
 
     return {
       results,
       next,
+      previous,
     };
   });
 };
