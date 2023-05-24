@@ -30,7 +30,7 @@ function App() {
       setError(true);
       return;
     }
-    debugger;
+
     setPlanets(results);
     setNextPage(next);
   };
