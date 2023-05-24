@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
+import _ from "lodash";
 import "./App.css";
-import Filters from "./components/Filters/filters.component";
+import Filters, { Order } from "./components/Filters/filters.component";
 import ResultList from "./components/ResultList/result-list.component";
-import Planet from "./models/planet";
+import Planet, { PlanetFields } from "./models/planet";
 import {
   ResourceTypes,
   getResourceData,
@@ -50,9 +51,13 @@ function App() {
     fetchData(previousPage);
   };
 
+  const handleSortByChange = (sortField: PlanetFields | "", order: Order) => {
+    setPlanets(_.orderBy(planets, [sortField], [order]));
+  };
+
   return (
     <>
-      <Filters />
+      <Filters onSortByChange={handleSortByChange} />
       <ResultList
         results={planets}
         showNextPage={nextPage !== null}

@@ -1,18 +1,16 @@
-interface IPlanet {
-  name: string;
-  diameter: string;
-  rotation_period: string;
-  orbital_period: string;
-  gravity: string;
-  population: string;
-  climate: string;
-  terrain: string;
-  surface_water: string;
-  residents: string[];
-  films: string[];
-  url: string;
-  created: string;
-  edited: string;
+export enum PlanetFields {
+  NAME = "name",
+  DIAMETER = "diameter",
+  ROTATION_PERIOD = "rotation_period",
+  ORBITAL_PERIOD = "orbital_period",
+  GRAVITY = "gravity",
+  POPULATION = "population",
+  CLIMATE = "climate",
+  TERRAIN = "terrain",
+  SURFACE_WATER = "surface_water",
+  URL = "url",
+  CREATED = "created",
+  EDITED = "edited",
 }
 
 export default class Planet {
@@ -31,7 +29,11 @@ export default class Planet {
   created: string;
   edited: string;
 
-  constructor(planet: IPlanet) {
+  constructor(
+    planet: {
+      [key in PlanetFields]: string;
+    } & { residents: string[]; films: [] }
+  ) {
     this.name = planet.name;
     this.diameter = planet.diameter;
     this.rotation_period = planet.rotation_period;
