@@ -8,18 +8,29 @@ import {
   ResourceTypes,
   getResourceData,
   getResourceInitialData,
-} from "./services/planet.service";
+} from "./services/resource.service";
 
 function App() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [previousPage, setPreviousPage] = useState<string | null>(null);
 
   const initializeData = async () => {
-    const { next, results } = await getResourceInitialData(
+    setLoading(true);
+
+    const { error, results, next } = await getResourceInitialData(
       ResourceTypes.PLANETS
     );
 
+    setLoading(false);
+
+    if (error) {
+      setError(true);
+      return;
+    }
+    debugger;
     setPlanets(results);
     setNextPage(next);
   };
@@ -29,7 +40,17 @@ function App() {
   }, []);
 
   const fetchData = async (url: string) => {
-    const { previous, results, next } = await getResourceData(url);
+    setLoading(true);
+
+    const { previous, results, next, error } = await getResourceData(url);
+
+    setLoading(false);
+
+    if (error) {
+      setError(true);
+      return;
+    }
+
     setPlanets(results);
     setPreviousPage(previous);
     setNextPage(next);
@@ -54,6 +75,14 @@ function App() {
   const handleSortByChange = (sortField: PlanetFields | "", order: Order) => {
     setPlanets(_.orderBy(planets, [sortField], [order]));
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error</div>;
+  }
 
   return (
     <>
