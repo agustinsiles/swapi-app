@@ -10,13 +10,17 @@ import {
 } from "./services/resource.service";
 
 function App() {
+  // These states variables are declared as soon as the App function gets executed
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [planets, setPlanets] = useState<Planet[]>([]);
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [previousPage, setPreviousPage] = useState<string | null>(null);
 
+  // Functions like these also get declared at this time
   const initializeData = async () => {
+    // These functions have access to its parents variables (scope) even though they can be called at different times
+    // Here we make use of setLoading, setError, setPlanets and setNextPage inside a child function. This is a closure
     setLoading(true);
 
     const { error, results, next } = await getResourceInitialData(
@@ -38,6 +42,7 @@ function App() {
     initializeData();
   }, []);
 
+  // The same closure concept applies here
   const fetchData = async (url: string) => {
     setLoading(true);
 
@@ -56,18 +61,22 @@ function App() {
   };
 
   const onNext = () => {
+    // We can also make reference to nextPage, which is a variable declared on the parent's scope
     if (nextPage === null) {
       return;
     }
 
+    // This function generates a side-effect since it's making an async API call that would change the component's state
     fetchData(nextPage);
   };
 
   const onPrevious = () => {
+    // We can also make reference to previousPage, which is a variable declared on the parent's scope
     if (previousPage === null) {
       return;
     }
 
+    // This also generates a side effect since it's making an async API call that would change the component's state
     fetchData(previousPage);
   };
 
@@ -76,7 +85,11 @@ function App() {
   };
 
   if (error) {
-    return <div>Error</div>;
+    return (
+      <div className="text-red-500 font-bold text-center">
+        An error has occurred
+      </div>
+    );
   }
 
   return (

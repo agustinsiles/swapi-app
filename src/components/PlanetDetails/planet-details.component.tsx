@@ -20,6 +20,7 @@ export default function PlanetDetails({ planet }: IProps) {
   } = planet;
 
   const [readMore, setReadMore] = useState(false);
+
   return (
     <div className="bg-primary p-6 text-white space-y-2 my-2">
       <h3 className="font-bold text-lg">

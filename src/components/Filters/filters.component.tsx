@@ -17,11 +17,13 @@ export default function Filters({ onSortByChange }: IProps) {
 
   const handleFieldSelectionChange = (field: PlanetFields) => {
     onSortByChange(field, selectedOrder);
+    // Example of side effects. This function will update the component's state
     setSelectedField(field);
   };
 
   const handleOrderSelectionChange = (order: Order) => {
     onSortByChange(selectedField, order);
+    // Example of side effects. This function will update the component's state
     setSelectedOrder(order);
   };
 
