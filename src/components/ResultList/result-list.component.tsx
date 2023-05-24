@@ -13,7 +13,6 @@ interface IProps {
 
 export default function ResultList({
   results,
-  sortBy,
   showNextPage,
   showPreviousPage,
   onPrevious,

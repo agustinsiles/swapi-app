@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Planet from "../../models/planet";
+import Button from "../Button/button.component";
 
 interface IProps {
   planet: Planet;
@@ -17,21 +19,41 @@ export default function PlanetDetails({ planet }: IProps) {
     surface_water,
   } = planet;
 
+  const [readMore, setReadMore] = useState(false);
   return (
     <div className="bg-primary p-6 text-white space-y-2 my-2">
       <h3 className="font-bold text-lg">
-        {name} (diameter of {diameter})
+        {name} (diameter of {diameter} kilometers)
       </h3>
       <p>
-        Its rotation period is <b>{rotation_period}</b> whereas its orbital
-        period is <b>{orbital_period}</b>.
+        Its rotation period is <b>{rotation_period}</b> hours whereas its
+        orbital period is <b>{orbital_period}</b> days.
       </p>
       <p>
-        It has a gravity of {gravity} and a population of about {population}.
+        It has a gravity of <b>{gravity}</b> and a population of about{" "}
+        <b>{population}</b>.
       </p>
-      <p>Climate: {climate}</p>
-      <p>Terrain: {terrain}</p>
-      <p>Surface water: {surface_water}</p>
+
+      {readMore && (
+        <div>
+          <p>
+            Climate: <b>{climate}</b>
+          </p>
+          <p>
+            Terrain: <b>{terrain}</b>
+          </p>
+          <p>
+            Surface water: <b>{surface_water}%</b>
+          </p>
+        </div>
+      )}
+
+      <Button
+        classNames="text-black"
+        onClick={() => setReadMore((prevState) => !prevState)}
+      >
+        Read {readMore ? "less" : "more"}
+      </Button>
     </div>
   );
 }
