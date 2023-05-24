@@ -1,5 +1,6 @@
 import Planet from "../../models/planet";
 import Button from "../Button/button.component";
+import PlanetDetails from "../PlanetDetails/planet-details.component";
 
 interface IProps {
   results: Planet[];
@@ -22,12 +23,16 @@ export default function ResultList({
     <>
       <div>
         {results.map((planet) => (
-          <div key={planet.name}>{planet.name}</div>
+          <PlanetDetails key={planet.name} planet={planet} />
         ))}
       </div>
-      <div>
-        {showPreviousPage && <Button onClick={onPrevious}>Previous</Button>}
-        {showNextPage && <Button onClick={onNext}>Next</Button>}
+      <div className="flex justify-between my-6">
+        <Button onClick={onPrevious} disabled={!showPreviousPage}>
+          Previous
+        </Button>
+        <Button onClick={onNext} disabled={!showNextPage}>
+          Next
+        </Button>
       </div>
     </>
   );

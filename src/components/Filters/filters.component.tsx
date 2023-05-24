@@ -26,7 +26,7 @@ export default function Filters({ onSortByChange }: IProps) {
   };
 
   return (
-    <header>
+    <header className="flex justify-between my-6 bg-yellow-200 p-6">
       <div>
         Sort by:{" "}
         <Dropdown

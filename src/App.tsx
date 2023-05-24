@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
 import _ from "lodash";
-import "./App.css";
+import { useState, useEffect } from "react";
 import Filters, { Order } from "./components/Filters/filters.component";
 import ResultList from "./components/ResultList/result-list.component";
 import Planet, { PlanetFields } from "./models/planet";
@@ -76,25 +75,25 @@ function App() {
     setPlanets(_.orderBy(planets, [sortField], [order]));
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <div>Error</div>;
   }
 
   return (
-    <>
+    <div className="w-1/2 m-auto">
       <Filters onSortByChange={handleSortByChange} />
-      <ResultList
-        results={planets}
-        showNextPage={nextPage !== null}
-        showPreviousPage={previousPage !== null}
-        onPrevious={onPrevious}
-        onNext={onNext}
-      />
-    </>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <ResultList
+          results={planets}
+          showNextPage={nextPage !== null}
+          showPreviousPage={previousPage !== null}
+          onPrevious={onPrevious}
+          onNext={onNext}
+        />
+      )}
+    </div>
   );
 }
 
